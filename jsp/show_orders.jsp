@@ -155,7 +155,7 @@
                             }
 
                             int orderQuantity           = Integer.parseInt(resultSet.getString("order_quantity"));
-                            int shippedQuantity         = Integer.parseInt(resultSet.getString("shipped_quantity"));
+                            int shippedQuantity         = Integer.parseInt(requireNonNullElse(resultSet.getString("shipped_quantity"), "0"));
 
                             if (boolClosed) {
                                 if (shippedQuantity != 0) {

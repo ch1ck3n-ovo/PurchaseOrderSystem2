@@ -2,6 +2,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*, javax.sql.*, java.util.*" %>
 
+<%!
+    private <T> T requireNonNullElse(T obj, T defaultObj) {
+        return (obj != null) ? obj : defaultObj;
+    }
+%>
+
 <%
     String message = request.getParameter("message");
 
@@ -40,7 +46,7 @@
             boolean boolClosed          = isClosed.equals("V");
             String orderDueDate         = resultSet.getString("order_due_date");
             int orderQuantity           = Integer.parseInt(resultSet.getString("order_quantity"));
-            int shippedQuantity         = Integer.parseInt(resultSet.getString("shipped_quantity"));
+            int shippedQuantity         = Integer.parseInt(requireNonNullElse(resultSet.getString("shipped_quantity"), "0"));
 
             String key = orderDueDate.substring(0, 4);
             int value = orderQuantity;
