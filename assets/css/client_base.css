@@ -1,0 +1,79 @@
+
+.client-container {
+    position: relative;
+
+    width: 800px;
+    max-height: 720px;
+    margin: 95px auto;
+    padding: 0 12px;
+
+    overflow-y: auto;
+
+    border-radius: 12px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+
+    background-color: #fff;
+}
+
+.client-container:hover {
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.25);
+}
+
+.client-container__table {
+    width: 100%;
+    
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.client-container__table thead {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    
+    background-color: #fff;
+    box-shadow: 0 0px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+.client-table__row {
+    width: 100%;
+}
+
+.client-table__row:nth-child(even) {
+    background-color: #f4f4f4;
+}
+
+.client-table__row:hover {
+    border-radius: 12px;
+    background-color: #e8e8e8;
+}
+
+.client-table__cell {
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    
+    margin: 16px;
+
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.client-table__cell--text {
+    padding-left: 24px;
+}
+
+.client-table__cell--actions {
+    text-align: center;
+}
+
+.client-table__header--actions {
+    text-align: center;
+}
+
+.client-table__actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
