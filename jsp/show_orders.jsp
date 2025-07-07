@@ -56,6 +56,11 @@
 
 <script>
     history.replaceState(null, '', window.location.pathname);
+
+    window.onload = function() {
+        const container = document.getElementById('order-container');
+        container.scrollTop = container.scrollHeight;
+    };
 </script>
 
 <!DOCTYPE html>
@@ -96,7 +101,7 @@
             </a>
         </div>
 
-        <div class="order-container">
+        <div id="order-container" class="order-container">
             <table class="order-container__table">
                 <thead>
                     <tr class="order-table__row">
