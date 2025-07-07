@@ -40,47 +40,59 @@
             boolean boolClosed          = isClosed.equals("V");
             String orderDueDate         = resultSet.getString("order_due_date");
             int orderQuantity           = Integer.parseInt(resultSet.getString("order_quantity"));
+            int shippedQuantity         = Integer.parseInt(resultSet.getString("shipped_quantity"));
 
             String key = orderDueDate.substring(0, 4);
             int value = orderQuantity;
             if (boolClosed) {
+                if (shippedQuantity != 0) {
+                    value = shippedQuantity;
+                }
                 if (!yearClosed.containsKey(key)) {
                     yearClosed.put(key, value);
-                    if (!yearNotClosed.containsKey(key)) {
-                        yearNotClosed.put(key, 0);
-                    }
                 } else {
                     yearClosed.put(key, yearClosed.get(key) + value);
                 }
+                if (!yearNotClosed.containsKey(key)) {
+                    yearNotClosed.put(key, 0);
+                }
             } else {
                 if (!yearNotClosed.containsKey(key)) {
-                    yearNotClosed.put(key, value);
-                    if (!yearClosed.containsKey(key)) {
-                        yearClosed.put(key, 0);
-                    }
+                    yearNotClosed.put(key, (value - shippedQuantity));
                 } else {
-                    yearNotClosed.put(key, yearNotClosed.get(key) + value);
+                    yearNotClosed.put(key, yearNotClosed.get(key) + (value - shippedQuantity));
+                }
+                if (!yearClosed.containsKey(key)) {
+                    yearClosed.put(key, shippedQuantity);
+                } else {
+                    yearClosed.put(key, yearClosed.get(key) + shippedQuantity);
                 }
             } 
             
             key = orderDueDate.substring(0, 7);
+            value = orderQuantity;
             if (boolClosed) {
+                if (shippedQuantity != 0) {
+                    value = shippedQuantity;
+                }
                 if (!monthClosed.containsKey(key)) {
                     monthClosed.put(key, value);
-                    if (!monthNotClosed.containsKey(key)) {
-                        monthNotClosed.put(key, 0);
-                    }
                 } else {
                     monthClosed.put(key, monthClosed.get(key) + value);
                 }
+                if (!monthNotClosed.containsKey(key)) {
+                    monthNotClosed.put(key, 0);
+                }
             } else {
                 if (!monthNotClosed.containsKey(key)) {
-                    monthNotClosed.put(key, value);
-                    if (!monthClosed.containsKey(key)) {
-                        monthClosed.put(key, 0);
-                    }
+                    monthNotClosed.put(key, (value - shippedQuantity));
                 } else {
-                    monthNotClosed.put(key, monthNotClosed.get(key) + value);
+                    monthNotClosed.put(key, monthNotClosed.get(key) + (value - shippedQuantity));
+                }
+                if (!monthClosed.containsKey(key)) {
+                    monthClosed.put(key, shippedQuantity);
+                } else {
+                    monthClosed.put(key, monthClosed.get(key) + shippedQuantity);
                 }
             }
         }

@@ -27,7 +27,7 @@
             "&production_order_no="     + java.net.URLEncoder.encode(requireNonNullElse(productionOrderNo,  ""), "UTF-8") +
             "&outsourcing_order_no="    + java.net.URLEncoder.encode(requireNonNullElse(outsourcingOrderNo, ""), "UTF-8") +
             "&order_quantity="          + java.net.URLEncoder.encode(String.valueOf(orderQuantity), "UTF-8") +
-            "&shipped_quantity="          + java.net.URLEncoder.encode(String.valueOf(shippedQuantity), "UTF-8") +
+            "&shipped_quantity="        + java.net.URLEncoder.encode(String.valueOf(shippedQuantity), "UTF-8") +
             "&note="                    + java.net.URLEncoder.encode(String.valueOf(note), "UTF-8");
     }
 %>
@@ -174,10 +174,6 @@
                                     (filter.equals("not_closed") && boolClosed))) {
                                 continue;
                             }
-
-                            // if ((filter.equals("closed") && boolClosed)) {
-                            //     continue;
-                            // }
 
                             String clientId2            = resultSet.getString("client_id");
                             String t2tOrderNo           = resultSet.getString("t2t_order_no");

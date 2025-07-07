@@ -21,23 +21,23 @@
     java.sql.Date t2cDueDate    = getDateOrDefault(request, "t2c_due_date", today);
     java.sql.Date mailSentDate  = getDateOrDefault(request, "mail_sent_date", today);
     
-    String clientId             = Objects.requireNonNullElse(request.getParameter("client_id"), "C");
+    String clientId             = requireNonNullElse(request.getParameter("client_id"), "C");
     if (clientId.equals("C")) {
         response.sendRedirect("select_client.jsp?next=add_order.jsp");
         return;
     }
 
-    String clientName           = Objects.requireNonNullElse(request.getParameter("client_name"), "");
-    String t2tOrderNo           = Objects.requireNonNullElse(request.getParameter("t2t_order_no"), "");
-    String tBoxOrderNo          = Objects.requireNonNullElse(request.getParameter("t_box_order_no"), "");
-    String tSourceOrderNo       = Objects.requireNonNullElse(request.getParameter("t_source_order_no"), "");
-    String t2cOrderNo           = Objects.requireNonNullElse(request.getParameter("t2c_order_no"), "");
-    String scheduleSuggestion   = Objects.requireNonNullElse(request.getParameter("schedule_suggestion"), "");
-    String clientOrderNo        = Objects.requireNonNullElse(request.getParameter("client_order_no"), "");
-    String purchaseOrderNo      = Objects.requireNonNullElse(request.getParameter("purchase_order_no"), "");
-    String productionOrderNo    = Objects.requireNonNullElse(request.getParameter("production_order_no"), "");
-    String outsourcingOrderNo   = Objects.requireNonNullElse(request.getParameter("outsourcing_order_no"), "");
-    String note                 = Objects.requireNonNullElse(request.getParameter("note"), "");
+    String clientName           = requireNonNullElse(request.getParameter("client_name"), "");
+    String t2tOrderNo           = requireNonNullElse(request.getParameter("t2t_order_no"), "");
+    String tBoxOrderNo          = requireNonNullElse(request.getParameter("t_box_order_no"), "");
+    String tSourceOrderNo       = requireNonNullElse(request.getParameter("t_source_order_no"), "");
+    String t2cOrderNo           = requireNonNullElse(request.getParameter("t2c_order_no"), "");
+    String scheduleSuggestion   = requireNonNullElse(request.getParameter("schedule_suggestion"), "");
+    String clientOrderNo        = requireNonNullElse(request.getParameter("client_order_no"), "");
+    String purchaseOrderNo      = requireNonNullElse(request.getParameter("purchase_order_no"), "");
+    String productionOrderNo    = requireNonNullElse(request.getParameter("production_order_no"), "");
+    String outsourcingOrderNo   = requireNonNullElse(request.getParameter("outsourcing_order_no"), "");
+    String note                 = requireNonNullElse(request.getParameter("note"), "");
 
     int orderQuantity = 0;
     try {
