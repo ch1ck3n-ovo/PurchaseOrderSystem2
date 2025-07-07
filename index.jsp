@@ -9,6 +9,7 @@
         <meta charset="UTF-8">
         <title>採購單</title>
         <link rel="stylesheet" href="assets/css/global.css">
+        <link rel="icon" href="assets/img/clipboard-list.svg" type="image/svg+xml" />
     </head>
 
     <body>
