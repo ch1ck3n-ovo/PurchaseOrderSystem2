@@ -181,19 +181,26 @@
                                 oninput="this.value = this.value.replace(/[^0-9\-]/g, '')">
                     </div>
                     <div class="form-field">
-                        <div class="form-label">交期 <span style="color: #ff0000;">*</span></div>
-                        <input class="input input--date margin-left" type="date" name="t2c_due_date" value="<%= t2cDueDate != null ? t2cDueDate : today %>" required>
+                        <div class="form-label">訂單數量(PCS) <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--number margin-left" type="number" name="order_quantity" min="0" max="9999999" value="<%= orderQuantity %>" required>
                     </div>
                     <div class="form-field">
-                        <div class="form-label">備註</div>
-                        <input class="input input--text margin-left" type="text" name="note" value="<%= note %>" maxlength="60">
+                        <div class="form-label">⭢ 已出貨量(PCS)</div>
+                        <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('order_quantity', 'shipped_quantity', 7)">
+                            <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
+                        </button>
+                        <input class="input input--number" type="number" name="shipped_quantity" min="0" max="9999999" value="<%= shippedQuantity %>">
                     </div>
                 </div>
 
-            <div class="form-container" style="margin-left: 50px;">
-                <div class="form-header" style="height: 88.88px;">
-                    <h1>&nbsp;</h1>
-                </div>
+                <div class="form-container" style="margin-left: 50px;">
+                    <div class="form-header" style="height: 88.88px;">
+                        <h1>&nbsp;</h1>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">交期 <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--date margin-left" type="date" name="t2c_due_date" value="<%= t2cDueDate != null ? t2cDueDate : today %>" required>
+                    </div>
                     <div class="form-field">
                         <div class="form-label">產鈞訂單單號 <span style="color: #ff0000;">*</span></div>
                         <input class="input input--text margin-left" type="text" name="t2c_order_no" value="<%= t2cOrderNo %>" maxlength="20"
@@ -238,17 +245,10 @@
                                 oninput="this.value = this.value.replace(/[^0-9\-]/g, '')">
                     </div>
                     <div class="form-field">
-                        <div class="form-label">訂單數量(PCS) <span style="color: #ff0000;">*</span></div>
-                        <input class="input input--number margin-left" type="number" name="order_quantity" min="0" max="9999999" value="<%= orderQuantity %>" required>
+                        <div class="form-label">備註</div>
+                        <input class="input input--text margin-left" type="text" name="note" value="<%= note %>" maxlength="60">
                     </div>
-                    <div class="form-field">
-                        <div class="form-label">⭢ 已出貨量(PCS)</div>
-                        <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('order_quantity', 'shipped_quantity', 7)">
-                            <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
-                        </button>
-                        <input class="input input--number" type="number" name="shipped_quantity" min="0" max="9999999" value="<%= shippedQuantity %>">
-                    </div>
-                    <input class="button button--round" type="submit" value="送出">`
+                    <input class="button button--round" type="submit" value="送出">
                 </div>
             </div>
         </form>
