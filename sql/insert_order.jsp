@@ -131,6 +131,10 @@
 
         preparedStatement = connection.prepareStatement(sql);
 
+        if (orderQuantity - shippedQuantity == 0) {
+            isClosed = true;
+        }
+
         // 2. 設定參數
         preparedStatement.setBoolean(1, isClosed);
         preparedStatement.setDate(2, java.sql.Date.valueOf(orderDueDate));
