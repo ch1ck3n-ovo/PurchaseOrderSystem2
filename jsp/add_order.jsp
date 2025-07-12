@@ -136,7 +136,7 @@
 
         <form action="../sql/insert_order.jsp" method="post">
             <div style="display: flex;">
-                <div class="form-container" style="margin-right: 50px;">
+                <div class="form-container">
                     <div class="form-header">
                         <h1>新增訂單</h1>
                     </div>
@@ -193,7 +193,7 @@
                     </div>
                 </div>
 
-                <div class="form-container" style="margin-left: 50px;">
+                <div class="form-container">
                     <div class="form-header" style="height: 88.88px;">
                         <h1>&nbsp;</h1>
                     </div>

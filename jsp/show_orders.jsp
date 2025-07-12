@@ -6,7 +6,7 @@
     private <T> T requireNonNullElse(T obj, T defaultObj) {
         return (obj != null) ? obj : defaultObj;
     }
-    private String buildOrderUrl(String baseUrl, boolean isClosed, String orderDueDate, String clientId, 
+    private String buildOrderUrl(String baseUrl, boolean isClosed, String orderDueDate, String clientId, String clientName, 
                                 String t2tOrderNo, String tBoxOrderNo, String tSourceOrderNo, String t2cDueDate, 
                                 String t2cOrderNo, String mailSentDate, String scheduleSuggestion, String clientOrderNo, 
                                 String purchaseOrderNo, String productionOrderNo, String outsourcingOrderNo, 
@@ -15,6 +15,7 @@
             "?is_closed="               + java.net.URLEncoder.encode(String.valueOf(isClosed), "UTF-8") +
             "&order_due_date="          + java.net.URLEncoder.encode(requireNonNullElse(orderDueDate,       ""), "UTF-8") +
             "&client_id="               + java.net.URLEncoder.encode(requireNonNullElse(clientId,           ""), "UTF-8") +
+            "&client_name="               + java.net.URLEncoder.encode(requireNonNullElse(clientName,         ""), "UTF-8") +
             "&t2t_order_no="            + java.net.URLEncoder.encode(requireNonNullElse(t2tOrderNo,         ""), "UTF-8") +
             "&t_box_order_no="          + java.net.URLEncoder.encode(requireNonNullElse(tBoxOrderNo,        ""), "UTF-8") +
             "&t_source_order_no="       + java.net.URLEncoder.encode(requireNonNullElse(tSourceOrderNo,     ""), "UTF-8") +
@@ -181,6 +182,7 @@
                             }
 
                             String clientId2            = resultSet.getString("client_id");
+                            String clientName2            = resultSet.getString("client_name");
                             String t2tOrderNo           = resultSet.getString("t2t_order_no");
                             String tBoxOrderNo          = resultSet.getString("t_box_order_no");
                             String tSourceOrderNo       = resultSet.getString("t_source_order_no");
@@ -195,12 +197,12 @@
                             String note                 = resultSet.getString("note");
 
                             String editUrl = buildOrderUrl("edit_order.jsp", 
-                                    boolClosed, orderDueDate, clientId2, t2tOrderNo, 
+                                    boolClosed, orderDueDate, clientId2, clientName2, t2tOrderNo, 
                                     tBoxOrderNo, tSourceOrderNo, t2cDueDate, t2cOrderNo, 
                                     mailSentDate, scheduleSuggestion, clientOrderNo, purchaseOrderNo, 
                                     productionOrderNo, outsourcingOrderNo, orderQuantity, shippedQuantity, note);
                             String deleteUrl = buildOrderUrl("remove_order.jsp", 
-                                    boolClosed, orderDueDate, clientId2, t2tOrderNo, 
+                                    boolClosed, orderDueDate, clientId2, clientName2, t2tOrderNo, 
                                     tBoxOrderNo, tSourceOrderNo, t2cDueDate, t2cOrderNo, 
                                     mailSentDate, scheduleSuggestion, clientOrderNo, purchaseOrderNo, 
                                     productionOrderNo, outsourcingOrderNo, orderQuantity, shippedQuantity, note);

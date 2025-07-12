@@ -26,7 +26,8 @@
         response.sendRedirect("show_orders.jsp");
         return;
     }
-
+    
+    String clientName           = requireNonNullElse(request.getParameter("client_name"), "");
     String t2tOrderNo           = requireNonNullElse(request.getParameter("t2t_order_no"), "");
     String tBoxOrderNo          = requireNonNullElse(request.getParameter("t_box_order_no"), "");
     String tSourceOrderNo       = requireNonNullElse(request.getParameter("t_source_order_no"), "");
@@ -139,114 +140,126 @@
             </a>
         </div>
 
-        <div class="form-container">
-            <div class="form-header">
-                <h1>編輯訂單</h1>
+        <form action="../sql/update_order.jsp" method="post">
+            <div style="display: flex;">
+                <div class="form-container">
+                    <div class="form-header">
+                        <h1>編輯訂單</h1>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">結案</div>
+                        <input class="toggle-switch" type="checkbox" name="is_closed" <%= isClosed ? "checked" : "" %>>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">訂單交期 <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--date margin-left" type="date" name="order_due_date" value="<%= orderDueDate != null ? orderDueDate : today %>" required>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">客戶代號 <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--text margin-left" type="text" name="client_id" value="<%= clientId %>" maxlength="20" required readonly>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">客戶名稱 <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--text margin-left" type="text" name="" value="<%= clientName %>" maxlength="20" required readonly>
+                    </div>
+                    <div class="form-field"> 
+                        <div class="form-label">珅億訂單單號</div>
+                        <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('t2c_order_no', 't2t_order_no')">
+                            <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
+                        </button>
+                        <input class="input input--text" type="text" name="t2t_order_no" value="<%= t2tOrderNo %>" maxlength="20" 
+                                oninput="this.value = this.value.replace(/[^0-9\-]/g, '')">
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">珅億採購單號(紙箱3323)</div>
+                        <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('t2c_order_no', 't_box_order_no')">
+                            <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
+                        </button>
+                        <input class="input input--text" type="text" name="t_box_order_no" value="<%= tBoxOrderNo %>" maxlength="20" 
+                                oninput="this.value = this.value.replace(/[^0-9\-]/g, '')">
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">珅億採購單號(原物料3321)</div>
+                        <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('t2c_order_no', 't_source_order_no')">
+                            <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
+                        </button>
+                        <input class="input input--text" type="text" name="t_source_order_no" value="<%= tSourceOrderNo %>" maxlength="20"
+                                oninput="this.value = this.value.replace(/[^0-9\-]/g, '')">
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">訂單數量(PCS)</div>
+                        <input class="input input--number margin-left" type="number" name="order_quantity" min="0" max="9999999" value="<%= orderQuantity %>" required>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">⭢ 已出貨量(PCS)</div>
+                        <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('order_quantity', 'shipped_quantity', 7)">
+                            <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
+                        </button>
+                        <input class="input input--number" type="number" name="shipped_quantity" min="0" max="9999999" value="<%= shippedQuantity %>">
+                    </div>
+                </div>
+
+                <div class="form-container">
+                    <div class="form-header" style="height: 88.88px;">
+                        <h1>&nbsp;</h1>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">交期 <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--date margin-left" type="date" name="t2c_due_date" value="<%= t2cDueDate != null ? t2cDueDate : today %>" required>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">產鈞訂單單號 <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--text margin-left" type="text" name="t2c_order_no" value="<%= t2cOrderNo %>" maxlength="20" 
+                                oninput="this.value = this.value.replace(/[^0-9\-]/g, '')" required readonly>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">採購單發送日期 <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--date margin-left" type="date" name="mail_sent_date" value="<%= mailSentDate != null ? mailSentDate : today %>" required>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">排程採購建議 <span style="color: #ff0000;">*</span></div>
+                        <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('mail_sent_date', 'schedule_suggestion')">
+                            <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
+                        </button>
+                        <input class="input input--text" type="text" name="schedule_suggestion" value="<%= scheduleSuggestion %>"
+                                oninput="this.value = this.value.replace(/[^0-9\-]/g, '')" maxlength="20" required>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">客戶單號 <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--text margin-left" type="text" name="client_order_no" value="<%= clientOrderNo %>"
+                                oninput="this.value = this.value.replace(/[^0-9\-]/g, '')" maxlength="20" required>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">採購單號(單別3303) <span style="color: #ff0000;">*</span></div>
+                        <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('mail_sent_date', 'purchase_order_no')">
+                            <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
+                        </button>
+                        <input class="input input--text" type="text" name="purchase_order_no" value="<%= purchaseOrderNo %>"
+                                oninput="this.value = this.value.replace(/[^0-9\-]/g, '')" maxlength="20" required>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">製令單號(單別3301) <span style="color: #ff0000;">*</span></div>
+                        <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('mail_sent_date', 'production_order_no')">
+                            <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
+                        </button>
+                        <input class="input input--text" type="text" name="production_order_no" value="<%= productionOrderNo %>"
+                                oninput="this.value = this.value.replace(/[^0-9\-]/g, '')" maxlength="20" required>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">託工單號</div>
+                        <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('mail_sent_date', 'outsourcing_order_no')">
+                            <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
+                        </button>
+                        <input class="input input--text" type="text" name="outsourcing_order_no" value="<%= outsourcingOrderNo %>"
+                                oninput="this.value = this.value.replace(/[^0-9\-]/g, '')" maxlength="20">
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">備註</div>
+                        <input class="input input--text margin-left" type="text" name="note" value="<%= note %>" maxlength="60">
+                    </div>
+                    <input class="button button--round" type="submit" value="更新">
+                </div>
             </div>
-            <form action="../sql/update_order.jsp" method="post">
-                <div class="form-field">
-                    <div class="form-label">結案</div>
-                    <input class="toggle-switch" type="checkbox" name="is_closed" <%= isClosed ? "checked" : "" %>>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">訂單交期 <span style="color: #ff0000;">*</span></div>
-                    <input class="input input--date margin-left" type="date" name="order_due_date" value="<%= orderDueDate != null ? orderDueDate : today %>" required>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">客戶代號 <span style="color: #ff0000;">*</span></div>
-                    <input class="input input--text margin-left" type="text" name="client_id" value="<%= clientId %>" maxlength="20" required readonly>
-                </div>
-                <div class="form-field"> 
-                    <div class="form-label">珅億訂單單號</div>
-                    <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('t2c_order_no', 't2t_order_no')">
-                        <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
-                    </button>
-                    <input class="input input--text" type="text" name="t2t_order_no" value="<%= t2tOrderNo %>" maxlength="20" 
-                            oninput="this.value = this.value.replace(/[^0-9\-]/g, '')">
-                </div>
-                <div class="form-field">
-                    <div class="form-label">珅億採購單號(紙箱3323)</div>
-                    <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('t2c_order_no', 't_box_order_no')">
-                        <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
-                    </button>
-                    <input class="input input--text" type="text" name="t_box_order_no" value="<%= tBoxOrderNo %>" maxlength="20" 
-                            oninput="this.value = this.value.replace(/[^0-9\-]/g, '')">
-                </div>
-                <div class="form-field">
-                    <div class="form-label">珅億採購單號(原物料3321)</div>
-                    <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('t2c_order_no', 't_source_order_no')">
-                        <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
-                    </button>
-                    <input class="input input--text" type="text" name="t_source_order_no" value="<%= tSourceOrderNo %>" maxlength="20"
-                            oninput="this.value = this.value.replace(/[^0-9\-]/g, '')">
-                </div>
-                <div class="form-field">
-                    <div class="form-label">交期 <span style="color: #ff0000;">*</span></div>
-                    <input class="input input--date margin-left" type="date" name="t2c_due_date" value="<%= t2cDueDate != null ? t2cDueDate : today %>" required>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">產鈞訂單單號 <span style="color: #ff0000;">*</span></div>
-                    <input class="input input--text margin-left" type="text" name="t2c_order_no" value="<%= t2cOrderNo %>" maxlength="20" 
-                            oninput="this.value = this.value.replace(/[^0-9\-]/g, '')" required readonly>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">採購單發送日期 <span style="color: #ff0000;">*</span></div>
-                    <input class="input input--date margin-left" type="date" name="mail_sent_date" value="<%= mailSentDate != null ? mailSentDate : today %>" required>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">排程採購建議 <span style="color: #ff0000;">*</span></div>
-                    <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('mail_sent_date', 'schedule_suggestion')">
-                        <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
-                    </button>
-                    <input class="input input--text" type="text" name="schedule_suggestion" value="<%= scheduleSuggestion %>"
-                            oninput="this.value = this.value.replace(/[^0-9\-]/g, '')" maxlength="20" required>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">客戶單號 <span style="color: #ff0000;">*</span></div>
-                    <input class="input input--text margin-left" type="text" name="client_order_no" value="<%= clientOrderNo %>"
-                            oninput="this.value = this.value.replace(/[^0-9\-]/g, '')" maxlength="20" required>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">採購單號(單別3303) <span style="color: #ff0000;">*</span></div>
-                    <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('mail_sent_date', 'purchase_order_no')">
-                        <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
-                    </button>
-                    <input class="input input--text" type="text" name="purchase_order_no" value="<%= purchaseOrderNo %>"
-                            oninput="this.value = this.value.replace(/[^0-9\-]/g, '')" maxlength="20" required>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">製令單號(單別3301) <span style="color: #ff0000;">*</span></div>
-                    <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('mail_sent_date', 'production_order_no')">
-                        <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
-                    </button>
-                    <input class="input input--text" type="text" name="production_order_no" value="<%= productionOrderNo %>"
-                            oninput="this.value = this.value.replace(/[^0-9\-]/g, '')" maxlength="20" required>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">託工單號</div>
-                    <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('mail_sent_date', 'outsourcing_order_no')">
-                        <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
-                    </button>
-                    <input class="input input--text" type="text" name="outsourcing_order_no" value="<%= outsourcingOrderNo %>"
-                            oninput="this.value = this.value.replace(/[^0-9\-]/g, '')" maxlength="20">
-                </div>
-                <div class="form-field">
-                    <div class="form-label">訂單數量(PCS)</div>
-                    <input class="input input--number margin-left" type="number" name="order_quantity" min="0" max="9999999" value="<%= orderQuantity %>" required>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">⭢ 已出貨量(PCS)</div>
-                    <button type="button" class="button--reload margin-left" onclick="rotateIcon(this); updateText('order_quantity', 'shipped_quantity', 7)">
-                        <img class="img--rotatable" src="../assets/img/rotate-cw.svg"/>
-                    </button>
-                    <input class="input input--number" type="number" name="shipped_quantity" min="0" max="9999999" value="<%= shippedQuantity %>">
-                </div>
-                <div class="form-field">
-                    <div class="form-label">備註</div>
-                    <input class="input input--text margin-left" type="text" name="note" value="<%= note %>" maxlength="60">
-                </div>
-                <input class="button button--round" type="submit" value="更新">
-            </form>
-        </div>
+        </form>
     </body>
 </html>

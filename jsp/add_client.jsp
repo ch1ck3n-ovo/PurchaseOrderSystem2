@@ -68,7 +68,7 @@
             <div class="form-header">
                 <h1>新增客戶</h1>
             </div>
-            <form action="../sql/insert_client.jsp" method="post">
+            <form action="../sql/insert_client.jsp" method="post" style="margin-bottom: 0;">
                 <div class="form-field">
                     <div class="form-label">客戶代號</div>
                     <input class="input input--text" type="text" name="client_id" value="<%= clientId %>" maxlength="20" required

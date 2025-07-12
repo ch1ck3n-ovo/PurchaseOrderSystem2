@@ -167,7 +167,7 @@
         </div>
 
         <div style="display: flex;">
-            <div class="form-container" style="margin-right: 50px;">
+            <div class="form-container">
                 <div class="form-header">
                     <h1>依年份</h1>
                 </div>
@@ -216,7 +216,7 @@
                 </table>
             </div>
 
-            <div class="form-container" style="margin-left: 50px;">
+            <div class="form-container">
                 <div class="form__header">
                     <h1>依月份</h1>
                 </div>

@@ -27,6 +27,7 @@
         return;
     }
 
+    String clientName           = requireNonNullElse(request.getParameter("client_name"), "");
     String t2tOrderNo           = requireNonNullElse(request.getParameter("t2t_order_no"), "");
     String tBoxOrderNo          = requireNonNullElse(request.getParameter("t_box_order_no"), "");
     String tSourceOrderNo       = requireNonNullElse(request.getParameter("t_source_order_no"), "");
@@ -111,81 +112,93 @@
             </a>
         </div>
 
-        <div class="form-container">
-            <div class="form-header">
-                <h1>刪除訂單</h1>
+        <form action="../sql/delete_order.jsp" method="post">
+            <div style="display: flex;">
+                <div class="form-container">
+                    <div class="form-header">
+                        <h1>刪除訂單</h1>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">結案</div>
+                        <input class="toggle-switch" type="checkbox" name="is_closed" <%= isClosed ? "checked" : "" %> disabled>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">訂單交期 <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--date margin-left" type="date" name="order_due_date" value="<%= orderDueDate != null ? orderDueDate : today %>" readonly>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">客戶代號 <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--text margin-left" type="text" name="client_id" value="<%= clientId %>" readonly>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">客戶名稱 <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--text margin-left" type="text" name="" value="<%= clientName %>" maxlength="20" readonly>
+                    </div>
+                    <div class="form-field"> 
+                        <div class="form-label">珅億訂單單號</div>
+                        <input class="input input--text margin-left" type="text" name="t2t_order_no" value="<%= t2tOrderNo %>" readonly>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">珅億採購單號(紙箱3323)</div>
+                        <input class="input input--text margin-left" type="text" name="t_box_order_no" value="<%= tBoxOrderNo %>" readonly>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">珅億採購單號(原物料3321)</div>
+                        <input class="input input--text margin-left" type="text" name="t_source_order_no" value="<%= tSourceOrderNo %>" readonly>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">訂單數量(PCS) <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--number margin-left" type="number" name="order_quantity" min="0" max="9999999" value="<%= orderQuantity %>" readonly>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">⭢ 已出貨量(PCS)</div>
+                        <input class="input input--number margin-left" type="number" name="shipped_quantity" min="0" max="9999999" value="<%= shippedQuantity %>" readonly>
+                    </div>
+                </div>
+
+                <div class="form-container">
+                    <div class="form-header" style="height: 88.88px;">
+                        <h1>&nbsp;</h1>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">交期 <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--date margin-left" type="date" name="t2c_due_date" value="<%= t2cDueDate != null ? t2cDueDate : today %>" readonly>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">產鈞訂單單號 <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--text margin-left" type="text" name="t2c_order_no" value="<%= t2cOrderNo %>" readonly>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">採購單發送日期 <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--date margin-left" type="date" name="mail_sent_date" value="<%= mailSentDate != null ? mailSentDate : today %>" readonly>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">排程採購建議 <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--text margin-left" type="text" name="schedule_suggestion" value="<%= scheduleSuggestion %>" readonly>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">客戶單號 <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--text margin-left" type="text" name="client_order_no" value="<%= clientOrderNo %>" readonly>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">採購單號(單別3303) <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--text margin-left" type="text" name="purchase_order_no" value="<%= purchaseOrderNo %>" readonly>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">製令單號(單別3301) <span style="color: #ff0000;">*</span></div>
+                        <input class="input input--text margin-left" type="text" name="production_order_no" value="<%= productionOrderNo %>" readonly>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">託工單號</div>
+                        <input class="input input--text margin-left" type="text" name="outsourcing_order_no" value="<%= outsourcingOrderNo %>" readonly>
+                    </div>
+                    <div class="form-field">
+                        <div class="form-label">備註</div>
+                        <input class="input input--text margin-left" type="text" name="note" value="<%= note %>" readonly>
+                    </div>
+                    <input class="button button--round button--danger" type="submit" value="刪除">
+                </div>
             </div>
-            <form action="../sql/delete_order.jsp" method="post">
-                <div class="form-field">
-                    <div class="form-label">結案</div>
-                    <input class="toggle-switch" type="checkbox" name="is_closed" <%= isClosed ? "checked" : "" %> disabled>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">訂單交期 <span style="color: #ff0000;">*</span></div>
-                    <input class="input input--date margin-left" type="date" name="order_due_date" value="<%= orderDueDate != null ? orderDueDate : today %>" readonly>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">客戶代號 <span style="color: #ff0000;">*</span></div>
-                    <input class="input input--text margin-left" type="text" name="client_id" value="<%= clientId %>" readonly>
-                </div>
-                <div class="form-field"> 
-                    <div class="form-label">珅億訂單單號</div>
-                    <input class="input input--text margin-left" type="text" name="t2t_order_no" value="<%= t2tOrderNo %>" readonly>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">珅億採購單號(紙箱3323)</div>
-                    <input class="input input--text margin-left" type="text" name="t_box_order_no" value="<%= tBoxOrderNo %>" readonly>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">珅億採購單號(原物料3321)</div>
-                    <input class="input input--text margin-left" type="text" name="t_source_order_no" value="<%= tSourceOrderNo %>" readonly>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">交期 <span style="color: #ff0000;">*</span></div>
-                    <input class="input input--date margin-left" type="date" name="t2c_due_date" value="<%= t2cDueDate != null ? t2cDueDate : today %>" readonly>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">產鈞訂單單號 <span style="color: #ff0000;">*</span></div>
-                    <input class="input input--text margin-left" type="text" name="t2c_order_no" value="<%= t2cOrderNo %>" readonly>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">採購單發送日期 <span style="color: #ff0000;">*</span></div>
-                    <input class="input input--date margin-left" type="date" name="mail_sent_date" value="<%= mailSentDate != null ? mailSentDate : today %>" readonly>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">排程採購建議 <span style="color: #ff0000;">*</span></div>
-                    <input class="input input--text margin-left" type="text" name="schedule_suggestion" value="<%= scheduleSuggestion %>" readonly>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">客戶單號 <span style="color: #ff0000;">*</span></div>
-                    <input class="input input--text margin-left" type="text" name="client_order_no" value="<%= clientOrderNo %>" readonly>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">採購單號(單別3303) <span style="color: #ff0000;">*</span></div>
-                    <input class="input input--text margin-left" type="text" name="purchase_order_no" value="<%= purchaseOrderNo %>" readonly>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">製令單號(單別3301) <span style="color: #ff0000;">*</span></div>
-                    <input class="input input--text margin-left" type="text" name="production_order_no" value="<%= productionOrderNo %>" readonly>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">託工單號</div>
-                    <input class="input input--text margin-left" type="text" name="outsourcing_order_no" value="<%= outsourcingOrderNo %>" readonly>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">訂單數量(PCS) <span style="color: #ff0000;">*</span></div>
-                    <input class="input input--number margin-left" type="number" name="order_quantity" min="0" max="9999999" value="<%= orderQuantity %>" readonly>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">⭢ 已出貨量(PCS)</div>
-                    <input class="input input--number margin-left" type="number" name="shipped_quantity" min="0" max="9999999" value="<%= shippedQuantity %>" readonly>
-                </div>
-                <div class="form-field">
-                    <div class="form-label">備註</div>
-                    <input class="input input--text margin-left" type="text" name="note" value="<%= note %>" readonly>
-                </div>
-                <input class="button button--round button--danger" type="submit" value="刪除">
-            </form>
-        </div>
+        </form>
     </body>
 </html>
